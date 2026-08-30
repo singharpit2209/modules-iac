@@ -22,3 +22,8 @@ output "log_group_name" {
   description = "CloudWatch log group name."
   value       = aws_cloudwatch_log_group.lambda.name
 }
+
+output "live_alias_name" {
+  description = "Live alias name when create_live_alias is true."
+  value       = var.create_live_alias ? aws_lambda_alias.live[0].name : null
+}

@@ -29,7 +29,13 @@ variable "handler" {
 }
 
 variable "source_dir" {
-  description = "Directory containing Lambda source to zip. Defaults to module placeholder."
+  description = "Directory containing Lambda source to zip. Ignored when bootstrap_zip_path is set."
+  type        = string
+  default     = null
+}
+
+variable "bootstrap_zip_path" {
+  description = "Path to a committed bootstrap zip for initial create. Real code is deployed via CI/CD."
   type        = string
   default     = null
 }
@@ -78,4 +84,16 @@ variable "tags" {
   description = "Additional tags merged into default tags."
   type        = map(string)
   default     = {}
+}
+
+variable "create_live_alias" {
+  description = "Create a live alias for CD deployments."
+  type        = bool
+  default     = true
+}
+
+variable "live_alias_name" {
+  description = "Name of the live alias for CD deployments."
+  type        = string
+  default     = "live"
 }
