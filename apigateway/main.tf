@@ -7,6 +7,9 @@ locals {
     },
     var.tags
   )
+
+  # AWS tag values cannot contain '$' (e.g. HTTP API stage name "$default").
+  stage_tag_suffix = var.stage_name == "$default" ? "default" : var.stage_name
 }
 
 resource "aws_apigatewayv2_api" "this" {
@@ -38,7 +41,7 @@ resource "aws_apigatewayv2_stage" "this" {
   auto_deploy = var.auto_deploy
 
   tags = merge(local.default_tags, {
-    Name = "${var.api_name}-${var.stage_name}"
+    Name = "${var.api_name}-${local.stage_tag_suffix}"
   })
 }
 
